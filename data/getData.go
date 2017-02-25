@@ -47,10 +47,6 @@ func GetScheduleData(siteUrl string, id int64) []models.Game {
 		g.League = id
 		g.Played = hasBeenPlayed(played, t)
 
-		if g.League == 1 && g.Time.Day() == 23 {
-			log.Printf("Time: %s \n SQL: %s \n", g.Time, g.GameTime)
-		}
-
 		season = append(season, g)
 	})
 
