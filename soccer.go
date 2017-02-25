@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"log"
+	"os"
 	"soccer/data"
 	"soccer/models"
 	"time"
@@ -13,6 +14,15 @@ const (
 )
 
 func main() {
+	//opening and setting up logging file
+	f, err := os.OpenFile("logs/testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	defer f.Close()
+
+	log.SetOutput(f)
+
 	allSeasons := make([]models.Game, 0)
 	allLeagues := make([]models.League, 0)
 	currentTime := time.Now()
@@ -21,6 +31,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 	allLeagues = data.GetLeagueData(SITE_URL)
 	for _, league := range allLeagues {
 		newSeason := data.GetScheduleData(league.Url, league.Id)
@@ -42,7 +53,5 @@ func main() {
 		}
 		allSeasons = append(allSeasons, newSeason...)
 	}
-
-	defer db.Close()
 
 }
