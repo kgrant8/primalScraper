@@ -15,7 +15,7 @@ const (
 
 func main() {
 	//opening and setting up logging file
-	f, err := os.OpenFile("logs/dailylog", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logs/dailyLog", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
